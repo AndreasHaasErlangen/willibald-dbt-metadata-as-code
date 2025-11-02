@@ -1,0 +1,37 @@
+layer: conceptual
+entity: Delivery
+description: "Physical shipment of products to fulfill one or more orders. Tracks expected and actual delivery dates, shipping status, and performance against delivery commitments."
+
+attributes:
+  - name: DeliveryId
+    description: "Unique identifier for the delivery shipment"
+    type: string
+    example: "L2022-00089"
+    
+  - name: PlannedDeliveryDate
+    description: "Date when delivery was promised to the customer"
+    type: date
+    example: "2022-03-14"
+    
+  - name: ActualDeliveryDate
+    description: "Date when delivery was actually completed"
+    type: date
+    example: "2022-03-13"
+    
+  - name: DeliveryStatus
+    description: "Current status of the delivery"
+    type: string
+    example: "Delivered"
+    
+  - name: TrackingNumber
+    description: "Carrier tracking identifier for shipment"
+    type: string
+    example: "DHL123456789"
+
+relationships: []
+
+normalization_hints:
+  multi_valued: []
+  redundant: []
+  constrained: 
+    - DeliveryStatus

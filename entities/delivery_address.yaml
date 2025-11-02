@@ -1,0 +1,47 @@
+layer: conceptual
+entity: DeliveryAddress
+description: "Physical address where deliveries can be sent. Customers may have multiple delivery addresses and addresses can receive multiple deliveries."
+
+attributes:
+  - name: AddressId
+    description: "Unique identifier for the delivery address"
+    type: string
+    example: "A7890"
+    
+  - name: Street
+    description: "Street address including house number"
+    type: string
+    example: "Hauptstrasse 45"
+    
+  - name: City
+    description: "City or municipality name"
+    type: string
+    example: "Erlangen"
+    
+  - name: PostalCode
+    description: "Postal code for delivery routing"
+    type: string
+    example: "91054"
+    
+  - name: Country
+    description: "Country code or name"
+    type: string
+    example: "Germany"
+    
+  - name: AddressType
+    description: "Classification of address use"
+    type: string
+    example: "Primary"
+
+relationships:
+  - name: receives_deliveries
+    target: Delivery
+    type: 1:M
+    description: "An address can receive multiple deliveries over time"
+
+normalization_hints:
+  multi_valued: []
+  redundant: []
+  constrained: 
+    - Country
+    - AddressType

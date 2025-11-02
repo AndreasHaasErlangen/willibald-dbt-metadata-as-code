@@ -1,0 +1,41 @@
+layer: conceptual
+entity: Product
+description: "Item available for purchase in the Willibald catalog, including seeds, plants, tools, and gardening supplies. Each product belongs to a category and has pricing and inventory information."
+
+attributes:
+  - name: ProductId
+    description: "Unique identifier for the product in the catalog"
+    type: string
+    example: "P5001"
+    
+  - name: ProductName
+    description: "Marketing name of the product displayed to customers"
+    type: string
+    example: "Organic Tomato Seeds - Roma"
+    
+  - name: Description
+    description: "Detailed description of the product including growing instructions"
+    type: string
+    
+  - name: Price
+    description: "Current retail price of the product"
+    type: decimal
+    example: "4.99"
+    
+  - name: StockLevel
+    description: "Current quantity available in inventory"
+    type: number
+    example: "150"
+
+relationships:
+  - name: appears_in_items
+    target: OrderItem
+    type: 1:M
+    description: "A product can appear in multiple order items across different orders"
+
+normalization_hints:
+  multi_valued: []
+  redundant: []
+  constrained: 
+    - Price
+    - StockLevel

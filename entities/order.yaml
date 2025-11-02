@@ -1,0 +1,48 @@
+layer: conceptual
+entity: Order
+description: "Purchase transaction representing a customer's request to buy products. Orders can originate from the webshop or roadshow events, contain multiple items, and result in one or more deliveries."
+
+attributes:
+  - name: OrderId
+    description: "Unique identifier for the order"
+    type: string
+    example: "B2022-00123"
+    
+  - name: OrderDate
+    description: "Date and time when the customer placed the order"
+    type: date
+    example: "2022-03-07"
+    
+  - name: TotalAmount
+    description: "Total monetary value of the order including all items and applicable discounts"
+    type: decimal
+    example: "127.50"
+    
+  - name: OrderStatus
+    description: "Current processing status of the order"
+    type: string
+    example: "Completed"
+    
+  - name: Source
+    description: "Channel through which the order was placed"
+    type: string
+    example: "Webshop"
+
+relationships:
+  - name: contains_items
+    target: OrderItem
+    type: 1:M
+    description: "An order consists of one or more line items, each representing a product and quantity"
+    
+  - name: results_in_deliveries
+    target: Delivery
+    type: 1:M
+    description: "An order may be fulfilled through one or more separate deliveries depending on product availability"
+
+normalization_hints:
+  multi_valued: []
+  redundant: 
+    - TotalAmount
+  constrained: 
+    - OrderStatus
+    - Source

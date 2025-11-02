@@ -1,0 +1,32 @@
+layer: conceptual
+entity: CategoryAdherence
+description: "Reference data defining delivery performance categories. Used to classify deliveries as on-time, early, or late. This is a static lookup table maintained by business rules."
+
+attributes:
+  - name: CategoryId
+    description: "Unique identifier for the adherence category"
+    type: string
+    example: "ADH-001"
+    
+  - name: CategoryName
+    description: "Name of the delivery performance category"
+    type: string
+    example: "Pünktlich"
+    
+  - name: Description
+    description: "Business definition of this category"
+    type: string
+    example: "Delivery completed within promised timeframe"
+    
+  - name: SortOrder
+    description: "Display order for reporting"
+    type: number
+    example: "1"
+
+relationships: []
+
+normalization_hints:
+  multi_valued: []
+  redundant: []
+  constrained: 
+    - CategoryName

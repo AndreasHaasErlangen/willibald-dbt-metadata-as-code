@@ -1,0 +1,52 @@
+layer: conceptual
+entity: Customer
+description: "Individual or organization that purchases seeds, plants, and gardening products from the Willibald shop. Customers can place orders, have multiple delivery addresses, and may be members of garden clubs."
+
+attributes:
+  - name: CustomerId
+    description: "Unique identifier for the customer assigned by the system"
+    type: string
+    example: "K12345"
+    
+  - name: Name
+    description: "Full name of the customer or company name for business customers"
+    type: string
+    example: "Maria Schmidt"
+    
+  - name: Email
+    description: "Primary contact email address for order confirmations and communications"
+    type: string
+    example: "maria.schmidt@example.com"
+    
+  - name: Phone
+    description: "Primary phone number for delivery coordination"
+    type: string
+    example: "+49 151 12345678"
+    
+  - name: RegistrationDate
+    description: "Date when the customer first registered with Willibald shop"
+    type: date
+    example: "2022-01-15"
+
+relationships:
+  - name: places_orders
+    target: Order
+    type: 1:M
+    description: "A customer can place multiple orders over time, tracking their purchase history"
+    
+  - name: has_residences
+    target: Residence
+    type: 1:M
+    description: "Customer may have lived at multiple addresses over time, important for delivery and marketing analytics"
+    
+  - name: member_of_club
+    target: ClubPartner
+    type: M:1
+    description: "Customer may optionally be a member of a partner garden club for special discounts"
+
+normalization_hints:
+  multi_valued: 
+    - Residence
+  redundant: []
+  constrained: 
+    - Email

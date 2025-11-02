@@ -1,0 +1,37 @@
+layer: conceptual
+entity: OrderItem
+description: "Individual line item within an order representing a specific product, quantity, and price. Each order item links a product to an order with purchase details."
+
+attributes:
+  - name: OrderItemId
+    description: "Unique identifier for the order line item"
+    type: string
+    example: "BP2022-00123-001"
+    
+  - name: Quantity
+    description: "Number of units of the product ordered"
+    type: number
+    example: "3"
+    
+  - name: UnitPrice
+    description: "Price per unit at the time of order"
+    type: decimal
+    example: "12.50"
+    
+  - name: LineTotal
+    description: "Total amount for this line item"
+    type: decimal
+    example: "37.50"
+    
+  - name: ItemStatus
+    description: "Processing status of this specific item"
+    type: string
+    example: "Shipped"
+
+relationships: []
+
+normalization_hints:
+  multi_valued: []
+  redundant: 
+    - LineTotal
+  constrained: []

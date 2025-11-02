@@ -1,0 +1,112 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Conceptual Entity Schema",
+  "description": "JSON Schema for validating conceptual business entity definitions",
+  "type": "object",
+  "required": ["layer", "entity", "description"],
+  "properties": {
+    "layer": {
+      "type": "string",
+      "enum": ["conceptual"],
+      "description": "Must be 'conceptual' for this layer"
+    },
+    "entity": {
+      "type": "string",
+      "pattern": "^[A-Z][a-zA-Z0-9_]*$",
+      "minLength": 2,
+      "description": "Entity name in PascalCase"
+    },
+    "description": {
+      "type": "string",
+      "minLength": 10,
+      "description": "Clear business description of the entity"
+    },
+    "attributes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "description"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "pattern": "^[A-Z][a-zA-Z0-9]*$",
+            "description": "Attribute name in PascalCase"
+          },
+          "description": {
+            "type": "string",
+            "minLength": 5,
+            "description": "Business description of attribute"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["string", "number", "date", "boolean", "decimal"],
+            "description": "Optional logical data type"
+          },
+          "example": {
+            "type": "string",
+            "description": "Optional example value"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "relationships": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "target", "type"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*$",
+            "description": "Relationship name in snake_case"
+          },
+          "target": {
+            "type": "string",
+            "pattern": "^[A-Z][a-zA-Z0-9_]*$",
+            "description": "Target entity name in PascalCase"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["1:1", "1:M", "M:1", "M:M"],
+            "description": "Cardinality of relationship"
+          },
+          "description": {
+            "type": "string",
+            "minLength": 10,
+            "description": "Business meaning of relationship"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "normalization_hints": {
+      "type": "object",
+      "properties": {
+        "multi_valued": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Attributes/relationships that can have multiple values"
+        },
+        "redundant": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Attributes that might be redundant"
+        },
+        "constrained": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Attributes with specific business constraints"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

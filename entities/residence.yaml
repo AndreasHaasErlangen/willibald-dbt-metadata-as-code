@@ -1,0 +1,49 @@
+layer: conceptual
+entity: Residence
+description: "Historical record of where a customer has lived over time. Used for customer analytics and regional marketing campaigns. This is a temporal entity tracking address changes."
+
+attributes:
+  - name: ResidenceId
+    description: "Unique identifier for this residence record"
+    type: string
+    example: "W001-2022"
+    
+  - name: City
+    description: "City where the customer resided"
+    type: string
+    example: "Munich"
+    
+  - name: State
+    description: "State or region"
+    type: string
+    example: "Bavaria"
+    
+  - name: Country
+    description: "Country of residence"
+    type: string
+    example: "Germany"
+    
+  - name: PostalCode
+    description: "Postal code of residence area"
+    type: string
+    example: "80331"
+    
+  - name: FromDate
+    description: "Date when customer started living at this residence"
+    type: date
+    example: "2020-01-01"
+    
+  - name: ToDate
+    description: "Date when customer moved away"
+    type: date
+    example: "2022-06-30"
+
+relationships: []
+
+normalization_hints:
+  multi_valued: 
+    - "Multiple residences per customer over time"
+  redundant: []
+  constrained: 
+    - FromDate
+    - ToDate

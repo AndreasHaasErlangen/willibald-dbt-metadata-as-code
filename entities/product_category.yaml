@@ -1,0 +1,45 @@
+layer: conceptual
+entity: ProductCategory
+description: "Hierarchical classification system for organizing products. Categories can have parent categories creating a multi-level taxonomy."
+
+attributes:
+  - name: CategoryId
+    description: "Unique identifier for the product category"
+    type: string
+    example: "CAT-001"
+    
+  - name: CategoryName
+    description: "Display name of the category"
+    type: string
+    example: "Vegetable Seeds"
+    
+  - name: Description
+    description: "Explanation of what products belong in this category"
+    type: string
+    
+  - name: Level
+    description: "Depth in the category hierarchy"
+    type: number
+    example: "2"
+
+relationships:
+  - name: has_parent
+    target: ProductCategory
+    type: M:1
+    description: "Category may have one parent category in the hierarchy"
+    
+  - name: has_children
+    target: ProductCategory
+    type: 1:M
+    description: "Category may contain multiple child subcategories"
+    
+  - name: contains_products
+    target: Product
+    type: 1:M
+    description: "Category groups multiple products for browsing and organization"
+
+normalization_hints:
+  multi_valued: []
+  redundant: 
+    - Level
+  constrained: []
