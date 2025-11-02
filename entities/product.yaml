@@ -1,41 +1,56 @@
 layer: conceptual
 entity: Product
-description: "Item available for purchase in the Willibald catalog, including seeds, plants, tools, and gardening supplies. Each product belongs to a category and has pricing and inventory information."
+description: "Item available for purchase in the Willibald catalog including seeds, plants, tools, and gardening supplies. Each product has pricing, planting information, and belongs to a product category."
 
 attributes:
-  - name: ProductId
-    description: "Unique identifier for the product in the catalog"
+  - name: product_bk
+    description: "Unique identifier for the product (business key)"
     type: string
     example: "P5001"
     
-  - name: ProductName
-    description: "Marketing name of the product displayed to customers"
+  - name: Bezeichnung
+    description: "Product name or description"
     type: string
-    example: "Organic Tomato Seeds - Roma"
+    example: "Tomate Roma Bio-Saatgut"
     
-  - name: Description
-    description: "Detailed description of the product including growing instructions"
+  - name: Pflanzabstand
+    description: "Recommended planting distance in centimeters"
+    type: number
+    example: "50"
+    
+  - name: Pflanzort
+    description: "Recommended planting location (sun, shade, greenhouse)"
     type: string
+    example: "Sonnig"
     
-  - name: Price
+  - name: Preis
     description: "Current retail price of the product"
     type: decimal
     example: "4.99"
     
-  - name: StockLevel
-    description: "Current quantity available in inventory"
-    type: number
-    example: "150"
+  - name: productcategory_bk
+    description: "Foreign key reference to product category"
+    type: string
+    example: "CAT-001"
+    
+  - name: Typ
+    description: "Product type classification"
+    type: string
+    example: "Saatgut"
+    
+  - name: Umfang
+    description: "Package size or quantity"
+    type: string
+    example: "50 Korn"
 
 relationships:
-  - name: appears_in_items
-    target: OrderItem
-    type: 1:M
-    description: "A product can appear in multiple order items across different orders"
+  - name: is_assigned_to
+    target: ProductCategory
+    type: M:1
+    description: "Product is assigned to a product category"
 
 normalization_hints:
   multi_valued: []
   redundant: []
   constrained: 
-    - Price
-    - StockLevel
+    - Preis

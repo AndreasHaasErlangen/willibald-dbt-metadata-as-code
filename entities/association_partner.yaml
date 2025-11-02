@@ -1,0 +1,43 @@
+layer: conceptual
+entity: AssociationPartner
+description: "Garden association or club that has a partnership agreement with Willibald. Members receive special discounts. The association is represented by a customer contact person."
+
+attributes:
+  - name: associationpartner_bk
+    description: "Unique identifier for the partner association (business key)"
+    type: string
+    example: "VP001"
+    
+  - name: KundeIDVerein
+    description: "Customer ID of the association's contact person"
+    type: string
+    example: "K12345"
+    
+  - name: Rabatt1
+    description: "First discount rate tier for association members"
+    type: decimal
+    example: "10.0"
+    
+  - name: Rabatt2
+    description: "Second discount rate tier for association members"
+    type: decimal
+    example: "15.0"
+    
+  - name: Rabatt3
+    description: "Third discount rate tier for association members"
+    type: decimal
+    example: "20.0"
+
+relationships:
+  - name: can_be_a
+    target: Customer
+    type: 1:M
+    description: "Association partner can be represented by customers"
+
+normalization_hints:
+  multi_valued: []
+  redundant: []
+  constrained: 
+    - Rabatt1
+    - Rabatt2
+    - Rabatt3

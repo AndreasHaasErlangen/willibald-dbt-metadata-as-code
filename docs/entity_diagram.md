@@ -4,116 +4,113 @@
 
 ```mermaid
 erDiagram
-    CategoryAdherence {
-        string CategoryId
-        string CategoryName
-        string Description
-        number SortOrder
-    }
-    ClubPartner {
-        string ClubPartnerId
-        string ClubName
-        string MembershipType
-        date JoinDate
-        decimal DiscountRate
+    AssociationPartner {
+        string associationpartner_bk
+        string KundeIDVerein
+        decimal Rabatt1
+        decimal Rabatt2
+        decimal Rabatt3
     }
     Customer {
-        string CustomerId
-        string Name
+        string customer_bk
         string Email
-        string Phone
-        date RegistrationDate
+        date Geburtsdatum
+        string Geschlecht
+        date GueltigBis
     }
     Delivery {
-        string DeliveryId
-        date PlannedDeliveryDate
-        date ActualDeliveryDate
-        string DeliveryStatus
-        string TrackingNumber
+        string deliveryadress_bk
+        string deliveryservice_bk
+        string order_bk
+        string position_bk
+        string BestellungID
+
     }
     DeliveryAddress {
-        string AddressId
-        string Street
-        string City
-        string PostalCode
-        string Country
+        string Deliveryadress_bk
+        string Adresszusatz
+        string Hausnummer
+        string Land
+        string Ort
+
+    }
+    DeliveryService {
+        string deliveryservice_bk
+        string Email
+        string Fax
+        string Hausnummer
+        string Land
+
     }
     Order {
-        string OrderId
-        date OrderDate
-        decimal TotalAmount
-        string OrderStatus
-        string Source
+        string order_bk
+        string AllgLieferAdrID
+        date Bestelldatum
+        decimal Rabatt
+        date Wunschdatum
     }
-    OrderItem {
-        string OrderItemId
-        number Quantity
-        decimal UnitPrice
-        decimal LineTotal
-        string ItemStatus
+    Position {
+        string Position_bk
+        date GueltigBis
+        date Kaufdatum
+        string KKFirma
+        string Kreditkarte
+
     }
     Product {
-        string ProductId
-        string ProductName
-        string Description
-        decimal Price
-        number StockLevel
+        string product_bk
+        string Bezeichnung
+        number Pflanzabstand
+        string Pflanzort
+        decimal Preis
+
     }
     ProductCategory {
-        string CategoryId
-        string CategoryName
-        string Description
-        number Level
-    }
-    Residence {
-        string ResidenceId
-        string City
-        string State
-        string Country
-        string PostalCode
+        string productcategory_bk
+        string productcategory_parent_bk
+        string Name
     }
 
-    ClubPartner ||--o{ Customer : has_members
-    Customer ||--o{ Order : places_orders
-    Customer ||--o{ Residence : has_residences
-    Customer }o--|| ClubPartner : member_of_club
-    DeliveryAddress ||--o{ Delivery : receives_deliveries
-    Order ||--o{ OrderItem : contains_items
-    Order ||--o{ Delivery : results_in_deliveries
-    Product ||--o{ OrderItem : appears_in_items
-    ProductCategory }o--|| ProductCategory : has_parent
-    ProductCategory ||--o{ ProductCategory : has_children
-    ProductCategory ||--o{ Product : contains_products
+    AssociationPartner ||--o{ Customer : can_be_a
+    Customer ||--o{ Order : makes_a
+    Customer ||--o{ DeliveryAddress : has_a
+    Customer }o--|| AssociationPartner : can_be_member_of
+    Delivery ||--o{ Position : contain_one_or_more
+    Delivery }o--|| DeliveryService : is_done_by
+    Delivery }o--|| DeliveryAddress : sends_to
+    Order ||--o{ Position : is_composed_of
+    Order }o--|| AssociationPartner : can_be_linked_to
+    Position }o--|| Product : contains_a
+    Position }o--|| DeliveryAddress : can_have_a_special
+    Product }o--|| ProductCategory : is_assigned_to
+    ProductCategory }o--|| ProductCategory : is_grouped_into
 ```
 
 ## Entity Descriptions
 
-### CategoryAdherence
-Reference data defining delivery performance categories. Used to classify deliveries as on-time, early, or late. This is a static lookup table maintained by business rules.
-
-### ClubPartner
-Garden club or association that has a partnership agreement with Willibald. Members of partner clubs receive special discounts and benefits.
+### AssociationPartner
+Garden association or club that has a partnership agreement with Willibald. Members receive special discounts. The association is represented by a customer contact person.
 
 ### Customer
-Individual or organization that purchases seeds, plants, and gardening products from the Willibald shop. Customers can place orders, have multiple delivery addresses, and may be members of garden clubs.
+Individual or organization that purchases seeds, plants, and gardening products from the Willibald shop. Customers can place orders through webshop or roadshow channels, have delivery addresses, and may be members of partner associations. Historical residence information is tracked as multi-active attributes.
 
 ### Delivery
-Physical shipment of products to fulfill one or more orders. Tracks expected and actual delivery dates, shipping status, and performance against delivery commitments.
+Physical shipment record tracking when and how positions are delivered. Links orders and positions to delivery addresses and delivery services. Contains the actual delivery date for adherence tracking.
 
 ### DeliveryAddress
-Physical address where deliveries can be sent. Customers may have multiple delivery addresses and addresses can receive multiple deliveries.
+Physical address where deliveries can be sent. Customers can have multiple delivery addresses. Addresses can be used as general order addresses or special position addresses.
+
+### DeliveryService
+Logistics provider or carrier company that handles physical delivery of orders. Delivery services have contact information and address details for coordination.
 
 ### Order
-Purchase transaction representing a customer's request to buy products. Orders can originate from the webshop or roadshow events, contain multiple items, and result in one or more deliveries.
+Purchase transaction from customer requesting products. Orders originate from webshop or roadshow channels, contain one or more positions, and may be linked to associations for roadshow orders.
 
-### OrderItem
-Individual line item within an order representing a specific product, quantity, and price. Each order item links a product to an order with purchase details.
+### Position
+Individual line item within an order representing a specific product with quantity and pricing. Positions may have special delivery addresses and payment details, particularly for roadshow orders.
 
 ### Product
-Item available for purchase in the Willibald catalog, including seeds, plants, tools, and gardening supplies. Each product belongs to a category and has pricing and inventory information.
+Item available for purchase in the Willibald catalog including seeds, plants, tools, and gardening supplies. Each product has pricing, planting information, and belongs to a product category.
 
 ### ProductCategory
-Hierarchical classification system for organizing products. Categories can have parent categories creating a multi-level taxonomy.
-
-### Residence
-Historical record of where a customer has lived over time. Used for customer analytics and regional marketing campaigns. This is a temporal entity tracking address changes.
+Hierarchical classification system for organizing products. Categories can have parent categories creating a multi-level taxonomy for seeds, plants, tools, and accessories.

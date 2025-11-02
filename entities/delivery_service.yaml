@@ -1,0 +1,61 @@
+layer: conceptual
+entity: DeliveryService
+description: "Logistics provider or carrier company that handles physical delivery of orders. Delivery services have contact information and address details for coordination."
+
+attributes:
+  - name: deliveryservice_bk
+    description: "Unique identifier for the delivery service provider (business key)"
+    type: string
+    example: "DS001"
+    
+  - name: Email
+    description: "Email address for service provider contact"
+    type: string
+    example: "info@dhl.de"
+    
+  - name: Fax
+    description: "Fax number for service provider"
+    type: string
+    example: "+49 9131 999999"
+    
+  - name: Hausnummer
+    description: "House number of service provider office"
+    type: string
+    example: "100"
+    
+  - name: Land
+    description: "Country where service provider is based"
+    type: string
+    example: "Deutschland"
+    
+  - name: Name
+    description: "Name of the delivery service company"
+    type: string
+    example: "DHL Express"
+    
+  - name: Ort
+    description: "City where service provider office is located"
+    type: string
+    example: "Bonn"
+    
+  - name: Plz
+    description: "Postal code of service provider office"
+    type: string
+    example: "53113"
+    
+  - name: Strasse
+    description: "Street of service provider office"
+    type: string
+    example: "Charles-de-Gaulle-Strasse"
+    
+  - name: Telefon
+    description: "Phone number for service provider contact"
+    type: string
+    example: "+49 228 12345678"
+
+relationships: []
+
+normalization_hints:
+  multi_valued: []
+  redundant: []
+  constrained: []

@@ -1,48 +1,46 @@
 layer: conceptual
 entity: Order
-description: "Purchase transaction representing a customer's request to buy products. Orders can originate from the webshop or roadshow events, contain multiple items, and result in one or more deliveries."
+description: "Purchase transaction from customer requesting products. Orders originate from webshop or roadshow channels, contain one or more positions, and may be linked to associations for roadshow orders."
 
 attributes:
-  - name: OrderId
-    description: "Unique identifier for the order"
+  - name: order_bk
+    description: "Unique identifier for the order (business key)"
     type: string
     example: "B2022-00123"
     
-  - name: OrderDate
-    description: "Date and time when the customer placed the order"
+  - name: AllgLieferAdrID
+    description: "General delivery address ID for the entire order"
+    type: string
+    example: "A7890"
+    
+  - name: Bestelldatum
+    description: "Date when the order was placed"
     type: date
     example: "2022-03-07"
     
-  - name: TotalAmount
-    description: "Total monetary value of the order including all items and applicable discounts"
+  - name: Rabatt
+    description: "Discount applied to the order"
     type: decimal
-    example: "127.50"
+    example: "10.50"
     
-  - name: OrderStatus
-    description: "Current processing status of the order"
-    type: string
-    example: "Completed"
-    
-  - name: Source
-    description: "Channel through which the order was placed"
-    type: string
-    example: "Webshop"
+  - name: Wunschdatum
+    description: "Customer's desired delivery date"
+    type: date
+    example: "2022-03-14"
 
 relationships:
-  - name: contains_items
-    target: OrderItem
+  - name: is_composed_of
+    target: Position
     type: 1:M
-    description: "An order consists of one or more line items, each representing a product and quantity"
+    description: "Order is composed of positions"
     
-  - name: results_in_deliveries
-    target: Delivery
-    type: 1:M
-    description: "An order may be fulfilled through one or more separate deliveries depending on product availability"
+  - name: can_be_linked_to
+    target: AssociationPartner
+    type: M:1
+    description: "Order can be linked to association partner (roadshow only)"
 
 normalization_hints:
   multi_valued: []
   redundant: 
-    - TotalAmount
-  constrained: 
-    - OrderStatus
-    - Source
+    - Rabatt
+  constrained: []

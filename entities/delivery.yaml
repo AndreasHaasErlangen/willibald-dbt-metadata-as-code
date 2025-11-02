@@ -1,37 +1,60 @@
 layer: conceptual
 entity: Delivery
-description: "Physical shipment of products to fulfill one or more orders. Tracks expected and actual delivery dates, shipping status, and performance against delivery commitments."
+description: "Physical shipment record tracking when and how positions are delivered. Links orders and positions to delivery addresses and delivery services. Contains the actual delivery date for adherence tracking."
 
 attributes:
-  - name: DeliveryId
-    description: "Unique identifier for the delivery shipment"
+  - name: deliveryadress_bk
+    description: "Delivery address business key (business key component)"
     type: string
-    example: "L2022-00089"
+    example: "A7890"
     
-  - name: PlannedDeliveryDate
-    description: "Date when delivery was promised to the customer"
-    type: date
-    example: "2022-03-14"
+  - name: deliveryservice_bk
+    description: "Delivery service provider business key (business key component)"
+    type: string
+    example: "DS001"
     
-  - name: ActualDeliveryDate
-    description: "Date when delivery was actually completed"
+  - name: order_bk
+    description: "Order business key (business key component)"
+    type: string
+    example: "B2022-00123"
+    
+  - name: position_bk
+    description: "Position business key (business key component)"
+    type: string
+    example: "BP2022-00123-001"
+    
+  - name: BestellungID
+    description: "Order ID reference for the delivery"
+    type: string
+    example: "B2022-00123"
+    
+  - name: PosID
+    description: "Position number reference"
+    type: number
+    example: "1"
+    
+  - name: LieferDatum
+    description: "Actual delivery date when shipment arrived"
     type: date
     example: "2022-03-13"
-    
-  - name: DeliveryStatus
-    description: "Current status of the delivery"
-    type: string
-    example: "Delivered"
-    
-  - name: TrackingNumber
-    description: "Carrier tracking identifier for shipment"
-    type: string
-    example: "DHL123456789"
 
-relationships: []
+relationships:
+  - name: contain_one_or_more
+    target: Position
+    type: 1:M
+    description: "Delivery contains one or more positions"
+    
+  - name: is_done_by
+    target: DeliveryService
+    type: M:1
+    description: "Delivery is done by a delivery service"
+    
+  - name: sends_to
+    target: DeliveryAddress
+    type: M:1
+    description: "Delivery sends to a delivery address"
 
 normalization_hints:
   multi_valued: []
   redundant: []
-  constrained: 
-    - DeliveryStatus
+  constrained: []
